@@ -1,3 +1,4 @@
+#![allow(improper_ctypes_definitions)]
 #[macro_use]
 extern crate rutie;
 
@@ -29,7 +30,7 @@ methods!(
 fn new_thread_iter(n: i64) -> i64 {
     let rt = Runtime::new().unwrap();
     rt.block_on(async {
-        let x = tokio::spawn(async move {
+        tokio::spawn(async move {
             println!("Hello from Rust using a green thread to do calculations!");
             let mut x: i64 = 0;
             for i in 0..n {
@@ -37,8 +38,7 @@ fn new_thread_iter(n: i64) -> i64 {
             }
 
             x
-        }).await.unwrap();
-        x
+        }).await.unwrap()
     })
 }
 
